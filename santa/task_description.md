@@ -16,4 +16,4 @@ Write all your results into the file **result.json**, using the structure indica
 
 **Good luck, and merry Christmas!**
 
-![](santa\resources\santa-pulled-by-reindeer.gif)
+![](https://github.com/ben-spr/coding_dojo/blob/santa_task/santa/resources/santa-pulled-by-reindeer.gif)
