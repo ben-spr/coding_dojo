@@ -1,0 +1,33 @@
+I am a Software Engineer and want to practice working with regular expressions using the re module in Python.
+Please create a practice tasks for me to do that. The goal of all tasks should be to define a regular expression that captures a specific pattern.
+For all tasks, please provide a task description including an example of the pattern.
+Separately, not as part of the task description, for each task provide:
+- a function to generate dummy data to test the solution, containing both matches and invalid entries. The data should be written to a .txt file.
+- the regex that solves the task
+
+
+Task 1:
+The pattern should be license plates for cars from Hannover, Germany.
+A Hannover license plate consists of 3 groups:
+1. 'H'
+2. two random uppercase letters
+3. 3 to 4 numbers.
+The dummy data should be a randomly sorted list with 200 entries. 
+The dummy data should not all match the expression and should contain vehicles that start with 'BS' or 'WOB' as group 1 instead of 'H' as well.
+The task is to find all vehicles from Hannover and separate them into city (3 numbers) and region (4 numbers).
+
+Task 2:
+The pattern should be valid phone numbers.
+
+
+
+And separately, not as part of the task:
+- a function to generate dummy data to test the solution
+- the regex that solves the task
+
+The dummy data should be a randomly sorted list with 200 entries. 
+The dummy data should not all match the expression and should contain vehicles that start with 'BS' or 'WOB' instead of 'H' as well.
+The task is to find all vehicles from Hannover and separate them into city (3 numbers) and region (4 numbers).
+
+
+Please provide the entries that should be matched in a second list as well.
