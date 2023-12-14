@@ -8,7 +8,7 @@ FILE_DIRECTORY = pathlib.Path(__file__).parent.resolve()
 def generate_random_graph(num_nodes: int|None = None):
     if num_nodes is None or num_nodes < 2:
         # Generate a random number of nodes between 10 and 200
-        num_nodes = random.randint(10, 200)
+        num_nodes = random.randint(10, 20)
 
     # Create nodes with random integer values
     nodes = [random.randint(1, 20) for i in range(num_nodes)]
@@ -20,11 +20,11 @@ def generate_random_graph(num_nodes: int|None = None):
     # edges = [(i, j) for i in range(num_nodes) for j in range(i + 1, num_nodes)]
     edges = {i: [0 for _ in range(num_nodes)] for i in range(num_nodes)}
     global_max_time = 240.0
-    global_min_time = 10.0
+    global_min_time = 20.0
     for i in range(num_nodes):
         for j in range(i+1, num_nodes):
             # max_time = 10.0 + min(10.0*j, global_max_time)
-            max_time = min(global_max_time, round(global_max_time / num_nodes + 20.0))
+            max_time = min(global_max_time, round(global_max_time / num_nodes + 49.0))
             # min_time = max_time - ((max_time - global_min_time) * float(j) / num_nodes)
             min_time = max(global_min_time, max_time / num_nodes)
             edges[i][j] = round(random.uniform(min_time, max_time), 1)
