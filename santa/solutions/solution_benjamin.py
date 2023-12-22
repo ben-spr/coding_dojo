@@ -27,8 +27,6 @@ class Solution():
         
         # Filter for nodes that are still possible to visit
         possible_indexes = self.filter_for_possible_visits(current_node=current_node, minutes_left=minutes_left, path=path)
-        # print(f'Possible nodes: {possible_indexes}')
-        
         # Return if no further nodes can be visited
         if not any(possible_indexes):
             # print(f'Returning path: {path}, gifts: {self.nodes[current_node]}')
@@ -72,7 +70,6 @@ class Solution():
             if self.edges[current_node][goal] >= minutes_left:
                 # print(f'Removing node {goal}. Travel time left: {minutes_left}, needed travel time: {self.edges[current_node][goal]}.')
                 possible_indexes.remove(goal)
-        # print(f'Possible nodes to visit: {possible_indexes}')
         return possible_indexes
 
 
