@@ -12,13 +12,14 @@ class Solution():
         self.debug = debug
 
     def find_best_path(self, current_node: int = 0, path: list = [0]):
-        # if seen_nodes is None:
-        #     seen_nodes = [0]
+        # print(f'Current node: {current_node}')
         minutes_left = self.calculate_travel_time_left(path)
-        # if minutes_left is None: 
-        #     minutes_left = self.time
+        # print(f'Minutes left: {minutes_left}')
+        
         # Filter for nodes that are still possible to visit
         possible_indexes = self.filter_for_possible_visits(current_node=current_node, minutes_left=minutes_left, path=path)
+        # print(f'Possible nodes: {possible_indexes}')
+        
         # Return if no further nodes can be visited
         if not any(possible_indexes):
             return path, self.nodes[current_node]
@@ -57,7 +58,6 @@ class Solution():
         for goal in possible_indexes.copy():
             if self.edges[current_node][goal] >= minutes_left:
                 possible_indexes.remove(goal)
-        # print('debug')
         return possible_indexes
 
 
@@ -81,7 +81,7 @@ def solve_and_print_results(i: int, solution: Solution):
 def solve_and_write_results_to_json(i: int, solution: Solution):
         inputfiles = read_input_files()
         folder = pathlib.Path(__file__).parent.resolve()
-        filename = 'solutions.json'
+        filename = 'result_benjamin.json'
         savepath = pathlib.Path(folder / filename)
         graph_name = str(inputfiles[i]).split('\\')[-1].replace('.json', '')
         if savepath.is_file():
@@ -122,8 +122,8 @@ def multithreaded_solution(debug: bool = False):
 
 
     folder = pathlib.Path(__file__).parent.resolve()
-    filename = 'solutions.json'
-    savepath = pathlib.Path(folder / filename)
+    solution_filename = 'result_benjamin.json'
+    savepath = pathlib.Path(folder / solution_filename)
     result_dict = dict()
     for i, (path, gifts) in enumerate(results):
         graph_name = str(inputfiles[i]).split('\\')[-1].replace('.json', '')

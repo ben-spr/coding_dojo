@@ -18,7 +18,9 @@ Write all your results into the file **result.json**, using the structure indica
 
 
 **Example:**
-```Input:
+Input:
+graph_01.json
+```json
 {
     "Nodes": [0, 11, 18, 14], 
     "Edges": {
@@ -30,8 +32,8 @@ Write all your results into the file **result.json**, using the structure indica
 }
 ```
 
-```
 Expected result:
+```json
 {
     "graph_01": {
         "Gifts": 32,
