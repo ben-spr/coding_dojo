@@ -2,14 +2,23 @@ import json
 from multiprocessing import Pool
 from multiprocessing import Process
 import pathlib
+import time
 
 
 class Solution():
-    def __init__(self, nodes: list, edges: list[list], time_in_minutes: int, debug: bool = False):
+    def __init__(self, graph_id: int, nodes: list, edges: list[list], time_in_minutes: int, debug: bool = False):
+        self.graph_id = graph_id
         self.nodes = nodes
         self.edges = edges
         self.time = time_in_minutes
         self.debug = debug
+    
+    def solve(self):
+        print(f'Solving graph {self.graph_id}...')
+        time_start = time.time()
+        path, gifts = self.find_best_path()
+        print(f'Solved! Solution time for graph {self.graph_id}: {time.time()-time_start:.2f} seconds.')
+        return path, gifts
 
     def find_best_path(self, current_node: int = 0, path: list = [0]):
         # print(f'Current node: {current_node}')
@@ -70,13 +79,16 @@ class Solution():
 def read_input_from_file(file_path: pathlib.Path):
     nodes = {}
     edges = {}
+
+    graph_id = str(file_path).split('/')[-1].split('.')[0].split('_')[-1]
     with open(file_path, 'r') as f:
         input_dict = json.load(f)
 
     nodes = input_dict['Nodes']
     for key, value in input_dict['Edges'].items():
         edges[int(key)] = value
-    return nodes, edges
+    
+    return graph_id, nodes, edges
 
 def solve_and_print_results(i: int, solution: Solution):
         inputfiles = read_input_files()
@@ -125,12 +137,18 @@ def multithreaded_solution(debug: bool = False):
     max_index = 1 if debug else len(inputfiles)
     
     for i in range(max_index):
-        nodes, edges = read_input_from_file(inputfiles[i])
-        solution_objects.append(Solution(nodes=nodes, edges=edges, time_in_minutes=4*60))
+        graph_id, nodes, edges = read_input_from_file(inputfiles[i])
+        solution_objects.append(Solution(graph_id=graph_id, nodes=nodes, edges=edges, time_in_minutes=4*60))
 
-    p = Pool(processes=len(inputfiles))
-    results = p.map(Solution.find_best_path, solution_objects)
-    p.close()
+    print(f'Starting solution for {len(inputfiles)} files...')
+    # p = Pool(processes=len(inputfiles))
+    p = Pool(processes=4)
+    time_start = time.time()
+    with p:
+        results = p.map(Solution.solve, solution_objects)
+        
+    time_solution = time.time()
+    print(f'Solved! Solution took {time_solution - time_start:.2f} seconds. Processing results...')
 
 
     folder = pathlib.Path(__file__).parent.resolve()
@@ -144,9 +162,13 @@ def multithreaded_solution(debug: bool = False):
             'Path': path
         }
     
+    time_processing = time.time()
+    print(f'Results processed in {time_processing - time_solution:.2f} seconds, writing to result file...')
     with open(savepath, 'w') as f:
             results_json_object = json.dumps(result_dict)
             f.write(results_json_object)
+    time_end = time.time()
+    print(f'Done! Writing took {time_end - time_processing:.2f} seconds. Overall time passed: {time_end - time_start:.2f} seconds.')
 
 
 def singlethreaded_solution(debug: bool = False):
@@ -163,6 +185,7 @@ def main():
     # singlethreaded_solution(debug = False)
     multithreaded_solution(debug = False)
     
+
 
 
 if __name__ == '__main__':
