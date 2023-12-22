@@ -37,13 +37,9 @@ Expected result:
 ```json
 {
     "graph_01": {
-        "Gifts": 32,
-        "Path": [
-            0,
-            2,
-            3
-        ]
-    }
+        "Gifts": 43, 
+        "Path": [0, 2, 1, 3]
+        }
 }
 ```
 

@@ -22,13 +22,15 @@ class Solution():
         
         # Return if no further nodes can be visited
         if not any(possible_indexes):
-            return path, self.nodes[current_node]
+            # print(f'Returning path: {path}, gifts: {self.nodes[current_node]}')
+            return path, self.calculate_gifts_collected(path)
         
         best_path = path
         gifts_max = self.calculate_gifts_collected(path)
         for node in possible_indexes:
             path_temp, gifts_temp = self.find_best_path(current_node = node, path = path + [node])
             if gifts_temp > gifts_max:
+                # print(f'Found better path: {path_temp} with {gifts_temp} gifts.')
                 best_path = path_temp
                 gifts_max = gifts_temp
         return best_path, gifts_max
@@ -52,12 +54,16 @@ class Solution():
     
     def filter_for_possible_visits(self, current_node: int, minutes_left: int, path: list):
         # not all nodes are seen
+        # print(f'Current node: {current_node}, path: {path}')
         if not (possible_indexes := set(range(len(self.nodes))).difference(set(path))):
+            # print(f'No possible indexes found.')
             return possible_indexes
         # travel time has to be shorter than time we still have
         for goal in possible_indexes.copy():
             if self.edges[current_node][goal] >= minutes_left:
+                # print(f'Removing node {goal}. Travel time left: {minutes_left}, needed travel time: {self.edges[current_node][goal]}.')
                 possible_indexes.remove(goal)
+        # print(f'Possible nodes to visit: {possible_indexes}')
         return possible_indexes
 
 
@@ -104,6 +110,12 @@ def solve_and_write_results_to_json(i: int, solution: Solution):
 
 def read_input_files():
     input_files = [f for f in pathlib.Path(pathlib.Path(__file__).parent.parent / 'graphs').iterdir() if f.is_file()]
+    for input_file in input_files:
+        # print(f'Filtering files: {input_file}')
+        if not str(input_file).endswith('.json'):
+            # print(f'Non-json detected: {input_file}')
+            input_files.remove(input_file)
+            # print(f'Removed {input_file}.')
     return input_files
 
 def multithreaded_solution(debug: bool = False):
