@@ -18,8 +18,8 @@ Write all your results into the file **result.json**, using the structure indica
 
 
 **Example:**
-Input:
-graph_01.json
+Input:  
+graph_01.json  
 ```json
 {
     "Nodes": [0, 11, 18, 14], 
@@ -32,7 +32,7 @@ graph_01.json
 }
 ```
 
-Expected result:
+Expected result:  
 ```json
 {
     "graph_01": {
