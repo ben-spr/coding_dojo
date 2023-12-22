@@ -16,4 +16,32 @@ Write all your results into the file **result.json**, using the structure indica
 
 **Good luck, and merry Christmas!**
 
+
+**Example:**
+```Input:
+{
+    "Nodes": [0, 11, 18, 14], 
+    "Edges": {
+        "0": [0, 89.6, 31.3, 44.6], 
+        "1": [89.6, 0, 77.6, 90.6], 
+        "2": [31.3, 77.6, 0, 78.0], 
+        "3": [44.6, 90.6, 78.0, 0]
+    }
+}
+```
+
+```
+Expected result:
+{
+    "graph_01": {
+        "Gifts": 32,
+        "Path": [
+            0,
+            2,
+            3
+        ]
+    }
+}
+```
+
 ![Oh no! Seems like this reference broke.](resources/santa-pulled-by-reindeer.gif "Merry Christmas!")
