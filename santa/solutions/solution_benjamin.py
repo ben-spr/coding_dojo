@@ -14,10 +14,10 @@ class Solution():
         self.debug = debug
     
     def solve(self):
-        print(f'Solving graph {self.graph_id}...')
+        # print(f'Solving graph {self.graph_id}...')
         time_start = time.time()
         path, gifts = self.find_best_path()
-        print(f'Solved! Solution time for graph {self.graph_id}: {time.time()-time_start:.2f} seconds.')
+        # print(f'Solved! Solution time for graph {self.graph_id}: {time.time()-time_start:.2f} seconds.')
         return path, gifts
 
     def find_best_path(self, current_node: int = 0, path: list = [0]):
@@ -127,7 +127,7 @@ def read_input_files():
             # print(f'Removed {input_file}.')
     return input_files
 
-def multithreaded_solution(debug: bool = False):
+def multithreaded_solution(debug: bool = False, process_num: int = 4):
     inputfiles = read_input_files()
     solution_objects = []
     # processes = []
@@ -137,15 +137,15 @@ def multithreaded_solution(debug: bool = False):
         graph_id, nodes, edges = read_input_from_file(inputfiles[i])
         solution_objects.append(Solution(graph_id=graph_id, nodes=nodes, edges=edges, time_in_minutes=4*60))
 
-    print(f'Starting solution for {len(inputfiles)} files...')
+    # print(f'Starting solution for {len(inputfiles)} files...')
     # p = Pool(processes=len(inputfiles))
-    p = Pool(processes=4)
-    time_start = time.time()
+    p = Pool(processes=process_num)
+    # time_start = time.time()
     with p:
         results = p.map(Solution.solve, solution_objects)
         
-    time_solution = time.time()
-    print(f'Solved! Solution took {time_solution - time_start:.2f} seconds. Processing results...')
+    # time_solution = time.time()
+    # print(f'Solved! Solution took {time_solution - time_start:.2f} seconds. Processing results...')
 
 
     folder = pathlib.Path(__file__).parent.resolve()
@@ -159,13 +159,13 @@ def multithreaded_solution(debug: bool = False):
             'Path': path
         }
     
-    time_processing = time.time()
-    print(f'Results processed in {time_processing - time_solution:.2f} seconds, writing to result file...')
+    # time_processing = time.time()
+    # print(f'Results processed in {time_processing - time_solution:.2f} seconds, writing to result file...')
     with open(savepath, 'w') as f:
             results_json_object = json.dumps(result_dict)
             f.write(results_json_object)
-    time_end = time.time()
-    print(f'Done! Writing took {time_end - time_processing:.2f} seconds. Overall time passed: {time_end - time_start:.2f} seconds.')
+    # time_end = time.time()
+    # print(f'Done! Writing took {time_end - time_processing:.2f} seconds. Overall time passed: {time_end - time_start:.2f} seconds.')
 
 
 def singlethreaded_solution(debug: bool = False):
@@ -180,10 +180,32 @@ def singlethreaded_solution(debug: bool = False):
 
 def main():
     # singlethreaded_solution(debug = False)
-    multithreaded_solution(debug = False)
+    iterations = 20
+    process_numbers = list(range(1, iterations+1))
+    time_results = [0] * len(process_numbers)
+    for index, i in enumerate(process_numbers):
+        start_time = time.time()
+        multithreaded_solution(debug = False, process_num=i)
+        time_passed = time.time() - start_time
+        print(f"Solved with {i} processes. Time passed: {time_passed} seconds.")
+        time_results[index] = time_passed
+    result_dict = dict()
+    counter = 1
+    for process_number, result in zip(process_numbers, time_results):
+        result_str = 'result_' + str(counter).zfill(2)
+        result_dict[result_str] = {
+            'number of processes': process_number,
+            'solution time': result
+        }
+        counter += 1
+
+    folder = pathlib.Path(__file__).parent.resolve()
+    filename = 'timed_solutions_benjamin.json'
+    savepath = pathlib.Path(folder / filename)
+    with open(savepath, 'w') as f:
+        results_json_object = json.dumps(result_dict)
+        f.write(results_json_object)
     
-
-
 
 if __name__ == '__main__':
     main()
