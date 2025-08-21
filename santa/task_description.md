@@ -10,10 +10,41 @@ Each graph presents a new and more difficult challenge!
 The files contain a list of nodes, which will always have your base as the starting point (hence, the entry of 0), as well as an adjacency matrix for the edges.
 The adacency matrix lets you look up the travel times (in minutes) from house to house - so the entry edges[i][j] will tell you how many minutes it takes to go from house i to house j (and vice versa. Wind doesn't seem to affect you!).
 
-Given this information, find the route that lets you deliver the most presents possible. Santa can only start at 8pm, and has until midnight to deliver! For simplicity's sake, you can assume that all households are in the same timezone.
+Given this information, find the route that lets you deliver the most presents possible. Santa can only start at 8pm, and has until midnight to deliver! For simplicity's sake, you can assume that all households are in the same timezone. You can only visit each household once!
 
 Write all your results into the file **result.json**, using the structure indicated in that file.
 
 **Good luck, and merry Christmas!**
+
+
+**Example:**
+
+Input:  
+graph_01.json  
+```json
+{
+    "Nodes": [0, 11, 18, 14], 
+    "Edges": {
+        "0": [0, 89.6, 31.3, 44.6], 
+        "1": [89.6, 0, 77.6, 90.6], 
+        "2": [31.3, 77.6, 0, 78.0], 
+        "3": [44.6, 90.6, 78.0, 0]
+    }
+}
+```
+
+Expected result:  
+```json
+{
+    "graph_01": {
+        "Gifts": 32,
+        "Path": [
+            0,
+            2,
+            3
+        ]
+    }
+}
+```
 
 ![Oh no! Seems like this reference broke.](resources/santa-pulled-by-reindeer.gif "Merry Christmas!")

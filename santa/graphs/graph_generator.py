@@ -40,7 +40,7 @@ def write_graph_to_json(file_name: str, node_values: list, edge_list: list):
         'Edges': edge_list
     }
     graph_json_object = json.dumps(graph_dict)
-    file_path = pathlib.Path(FILE_DIRECTORY / 'graphs' / f'{file_name}.json')
+    file_path = pathlib.Path(FILE_DIRECTORY / f'{file_name}.json')
     # file_path = pathlib.Path(FILE_DIRECTORY / f'{file_name}.json')
     # with open(f'{FILE_DIRECTORY}\\{file_name}.json', 'w') as f:
     with open(file_path, 'w') as f:

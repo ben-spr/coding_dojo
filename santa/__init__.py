@@ -1,6 +1,6 @@
 import pathlib
 
-import graph_generator
+import santa.graphs.graph_generator as graph_generator
 import solutions.solution_benjamin
 
 def fresh_setup():

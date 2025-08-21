@@ -22,7 +22,7 @@ class TestSantaSolution(unittest.TestCase):
 
     def setUp(self):
         self.input_files = read_input_files()
-        with open(pathlib.Path(pathlib.Path(__file__).parent / 'solutions/solutions.json')) as f:
+        with open(pathlib.Path(pathlib.Path(__file__).parent / 'solutions/result_benjamin.json')) as f:
             self.expected_results = json.load(f)
         with open(pathlib.Path(__file__).parent / 'result.json') as f:
             self.results = json.load(f)
