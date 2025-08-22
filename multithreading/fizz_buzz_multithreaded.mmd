@@ -1,0 +1,33 @@
+sequenceDiagram
+    participant Main
+    participant Fizz
+    participant Buzz
+    participant FizzBuzz
+    participant Number
+
+    Main->>Fizz: Start fizz thread
+    Main->>Buzz: Start buzz thread
+    Main->>FizzBuzz: Start fizzbuzz thread
+    Main->>Number: Start number thread
+
+    loop while num <= n
+        alt num % 3 == 0 and num % 5 != 0
+            Fizz->>Fizz: Wait condition met
+            Fizz->>Fizz: printFizz()
+            Fizz->>All: Increment num, notify_all()
+        else num % 5 == 0 and num % 3 != 0
+            Buzz->>Buzz: Wait condition met
+            Buzz->>Buzz: printBuzz()
+            Buzz->>All: Increment num, notify_all()
+        else num % 3 == 0 and num % 5 == 0
+            FizzBuzz->>FizzBuzz: Wait condition met
+            FizzBuzz->>FizzBuzz: printFizzBuzz()
+            FizzBuzz->>All: Increment num, notify_all()
+        else
+            Number->>Number: Wait condition met
+            Number->>Number: printNumber(num)
+            Number->>All: Increment num, notify_all()
+        end
+    end
+
+    Note over All: Threads exit when num > n 
