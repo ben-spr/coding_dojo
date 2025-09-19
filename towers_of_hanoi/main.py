@@ -15,7 +15,8 @@ class Disk:
 
 
 class Tower:
-    def __init__(self, n_disks: int = 0):
+    def __init__(self, id: str, n_disks: int = 0):
+        self.id = id
         self.disks = []
         if n_disks > 0:
             for radius in range(n_disks, 0):
@@ -28,23 +29,56 @@ class Tower:
         self.disks.append(Disk)
 
     def remove_disk(self) -> Disk:
-        return self.disks.pop()
+        try:
+            self.disks.pop()
+        except IndexError:
+            raise InvalidMoveException(f"Invalid move! Tower {self.id} is empty!")
 
 
 class Game:
     def __init__(self, n_disks: int):
         self.n_disks = n_disks
         self.ongoing = True
-        self.state = GameState(n_disks)
+        # self.state = GameState(n_disks)
+        self.towers = {
+                "1": Tower(id="1", n_disks=self.n_disks),
+                "2": Tower(id="2"),
+                "3": Tower(id="3"),
+        }
 
     def play_next_round(self):
-        user_input = input("Which disk do you want to play? (q to quit)")
+        def get_user_input(msg: str, valid_input: list):
+            while True:
+                user_input = input(msg)
+                if not user_input in valid_input:
+                    logger.error(f"Invalid user input detected: {user_input}")
+                    print(f"Invalid input! Valid options: {valid_input}")
+                    continue
+
+                return user_input
+
+        valid_input = list(self.towers.keys())
+        user_input = get_user_input(
+                "Which disk do you want to play? (q to quit) ",
+                valid_input + ["q"],
+        )
+
         if user_input == "q":
+            logger.info("User decided to quit, ending game...")
             self.ongoing = False
+            self.debug(f"Set {self.ongoing=}.")
             return
 
+        valid_input.remove(user_input)
 
-        pass
+        user_input = get_user_input(
+                "Where do you want to place the disk?",
+                valid_input,
+        )
+        
+        # check for validity, error message and return if invalid
+
+        
 
 
 def main(n:int=0)->None:
