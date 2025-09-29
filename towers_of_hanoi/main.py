@@ -1,6 +1,6 @@
+import argparse
 import dataclasses
 import logging
-import argparse
 
 logger = logging.getLogger()
 
