@@ -19,7 +19,7 @@ def demonstrate_usage():
     c = Container()
     d = Container()
 
-    def assert_amounts(a_amount: int, b_amount: int, c_amount: int, d_amount: int) -> None:
+    def assert_amounts(a_amount: float, b_amount: float, c_amount: float, d_amount: float) -> None:
         assert a.amount == a_amount, f"a: expected {a_amount}, got {a.amount}"
         assert b.amount == b_amount, f"b: expected {b_amount}, got {b.amount}"
         assert c.amount == c_amount, f"c: expected {c_amount}, got {c.amount}"
