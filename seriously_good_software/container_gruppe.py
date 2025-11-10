@@ -23,6 +23,7 @@ class Container(abc.ABC):
             raise TypeError(f"Cannot connect {type(self).__name__} with {type(other).__name__}")
         self._connect(other)
 
+
 class FirstContainer(Container):
     def __init__(self):
         self._group:set[Container] = {self}
@@ -50,11 +51,13 @@ class FirstContainer(Container):
             container._group = all_connected
             container._group_amount = total_amount
 
+
 @dataclasses.dataclass
 class Group:
     members:set[Container] = dataclasses.field(default_factory=set)
     total_amount:float = 0.0
     number_of_members:int = 0
+
 
 class FastAmountChangeContainerWithGroupObject(Container):
     def __init__(self):
@@ -77,11 +80,39 @@ class FastAmountChangeContainerWithGroupObject(Container):
 class FastAmountChangeContainerWithDictionary(Container):
     pass
 
+
 class FastConnectContainer(Container):
-    pass
+    def __init__(self) -> None:
+        self._next: FastConnectContainer = self
+        self._amount: float = 0.0
+
+    @classmethod
+    def is_ready_for_benchmark(cls) -> bool:
+        return True
+
+    @property
+    def amount(self) -> float:
+        next_container = self._next
+        counter = 1
+        total_amount = self._amount
+        while next_container != self:
+            counter += 1
+            total_amount += next_container._amount
+            next_container = next_container._next
+
+        return total_amount / counter
+
+    @amount.setter
+    def amount(self, amount: float) -> None:
+        self._amount += amount - self.amount
+
+    def _connect(self, other: "Container") -> None:
+        self._next, other._next = other._next, self._next
+
 
 class FastOnAverageContainer(Container):
     pass
+
 
 def demonstrate_usage():
     """
